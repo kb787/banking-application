@@ -1,0 +1,5 @@
+# Env Configuration
+.env 
+
+# System Modules 
+node_modules
