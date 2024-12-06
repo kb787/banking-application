@@ -1,20 +1,28 @@
+const { Sequelize } = require("sequelize");
 const dotenv = require("dotenv");
-const mysql = require("mysql");
 const colors = require("colors");
+
 dotenv.config();
 
-const Connection = () => {
+const sequelize = new Sequelize(
+  process.env.database_name,
+  process.env.user_name,
+  process.env.user_password,
+  {
+    host: process.env.host,
+    port: process.env.mysql_connection_port,
+    dialect: "mysql",
+    logging: false,
+  }
+);
+
+const Connection = async () => {
   try {
-    mysql.createConnection({
-      host: process.env.host,
-      port: process.env.mysql_connection_port,
-      database: process.env.database_name,
-      user: process.env.user_name,
-      password: process.env.user_password,
-    });
-    console.log(`Successfully connected to database`.bgGreen);
+    await sequelize.authenticate();
+    console.log("Successfully connected to the database".bgGreen);
   } catch (error) {
-    console.log(`Unable to connect to database due to error ${error}`);
+    console.error(`Unable to connect to the database: ${error}`.bgRed);
   }
 };
-module.exports = Connection;
+
+module.exports = { sequelize, Connection };

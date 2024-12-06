@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const User = require("./user-model");
-
+const { sequelize } = require("./../config/dbConnection");
 class Account extends Model {}
 
 Account.init(
@@ -8,12 +8,12 @@ Account.init(
     account_id: {
       type: DataTypes.INTEGER,
       unique: true,
+      primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
     user_id: {
       type: DataTypes.INTEGER,
-      unique: true,
       allowNull: false,
     },
 
@@ -40,7 +40,7 @@ Account.init(
     sequelize,
     modelName: "Account",
     tableName: "accounts",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

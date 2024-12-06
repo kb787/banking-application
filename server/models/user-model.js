@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-
+const { Sequelize, Model, DataTypes } = require("sequelize");
+const { sequelize } = require("./../config/dbConnection");
 class User extends Model {}
 
 User.init(
@@ -7,6 +7,7 @@ User.init(
     user_id: {
       type: DataTypes.INTEGER,
       unique: true,
+      primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
@@ -52,7 +53,7 @@ User.init(
     sequelize,
     modelName: "User",
     tableName: "users",
-    timestamps: true,
+    timestamps: false,
   }
 );
 
