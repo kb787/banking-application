@@ -5,6 +5,8 @@ const app = express();
 const server = http.createServer(app);
 const { Connection } = require("./config/dbConnection");
 const bankerRouter = require("./routes/banker-routes");
+const authRouter = require("./routes/auth-routes");
+const transactionRouter = require("./routes/transaction-routes");
 
 app.use(express.json());
 dotenv.config();
@@ -16,6 +18,8 @@ app.get("/", (req, res) => {
   return res.json("App running successfully");
 });
 app.use(base_api, bankerRouter);
+app.use(base_api, authRouter);
+app.use(base_api, transactionRouter);
 server.listen(express_port, () => {
   console.log(`Server running successfully on port no ${express_port}`);
 });

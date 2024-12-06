@@ -1,6 +1,11 @@
 const { Sequelize, Model, DataTypes } = require("sequelize");
 const { sequelize } = require("./../config/dbConnection");
-class User extends Model {}
+const crypto = require("crypto");
+class User extends Model {
+  generateAccessToken() {
+    return crypto.randomBytes(18).toString("hex");
+  }
+}
 
 User.init(
   {
