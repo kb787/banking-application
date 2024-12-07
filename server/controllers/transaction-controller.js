@@ -45,7 +45,7 @@ const handleExecuteTransaction = async (req, res) => {
 
 const handleGetTransactions = async (req, res) => {
   try {
-    const { account_id } = req.params;
+    const account_id = req.params.id;
     const transactions = await Transaction.findAll({
       where: { account_id },
       order: [["created_at", "DESC"]],
