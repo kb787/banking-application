@@ -8,7 +8,6 @@ const handleExecuteTransaction = async (req, res) => {
 
   try {
     const account = await Account.findByPk(account_id, { transaction });
-
     if (!account) {
       await transaction.rollback();
       return res.status(404).json({ message: "Account not found" });
@@ -59,4 +58,37 @@ const handleGetTransactions = async (req, res) => {
   }
 };
 
-module.exports = { handleExecuteTransaction, handleGetTransactions };
+const handleFetchTransactionByUserId = async (req, res) => {
+  try {
+    const user_id = req.params.id;
+    const matchingAccount = await Account.findOne({
+      where: { user_id },
+      order: [["created_at", "DESC"]],
+    });
+    if (!matchingAccount) {
+      return res
+        .status(404)
+        .json({ message: "No account exists for the current user" });
+    }
+    const matchingTransactions = await Transaction.findAll({
+      where: { account_id: matchingAccount.account_id },
+    });
+
+    if (matchingTransactions.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No matching transactions found" });
+    }
+    return res.status(202).json(matchingTransactions);
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    return res
+      .status(500)
+      .json({ message: "Error fetching transactions", error: error.message });
+  }
+};
+module.exports = {
+  handleExecuteTransaction,
+  handleGetTransactions,
+  handleFetchTransactionByUserId,
+};

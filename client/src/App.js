@@ -5,6 +5,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import BankerLogin from "./components/auth/BankerLogin";
 import MainCombinedBanker from "./components/banker/MainCombined";
+import MainProfile from "./components/personal/MainProfile";
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route path="/BankerLogin" element={<BankerLogin />} />
           <Route path="/BankerDashboard" element={<MainCombinedBanker />} />
+          <Route path="/UserDashboard" element={<MainProfile />} />
         </Routes>
       </BrowserRouter>
     </div>
