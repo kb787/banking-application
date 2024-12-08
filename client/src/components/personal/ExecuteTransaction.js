@@ -57,15 +57,24 @@ const ExecuteTransaction = ({
         alert("Entering all fields is mandatory");
         return;
       }
+      const accessToken = localStorage.getItem("accessToken");
+      console.log(accessToken);
+      if (!accessToken) {
+        alert("Not authorized");
+      }
 
       const resObj = await axios.post(
         `http://localhost:3500/v1/api/execute-transaction`,
         {
           account_id: accountId,
-          // amount: transactionAmount,
           amount: parseFloat(transactionAmount),
           type: transactionType,
           description: transactionDescription,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 

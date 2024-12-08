@@ -22,6 +22,8 @@ const Login = () => {
         if (resObj.data.success) {
           alert("Login successfull");
           localStorage.setItem("userId", resObj.data.user_id);
+          localStorage.setItem("accessToken", resObj.data.data);
+          console.log(resObj.data.data);
           navigate("/UserDashboard");
         } else {
           alert("Invalid credentials");

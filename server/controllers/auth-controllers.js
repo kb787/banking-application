@@ -143,6 +143,7 @@ const handleCustomerLogin = async (req, res) => {
       message: "Login successful",
       success: true,
       user_id: prevUser.user_id,
+      data: access_token,
     });
   } catch (error) {
     console.error("Login error:", error);
