@@ -12,14 +12,14 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 dotenv.config();
 const express_port = process.env.express_server_port;
-const base_api = process.env.base_api_endpoint;
+const base_api = process.env.base_api_endpoint || "/v1/api";
 
 Connection();
 app.get("/", (req, res) => {
