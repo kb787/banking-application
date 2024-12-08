@@ -51,7 +51,7 @@ const AccountList = () => {
           <p className="text-2xl text-black font-semibold">Customer Accounts</p>
         </div>
         {backendData.length > 0 ? (
-          <div className="grid grid-cols-3 mt-[3%] ml-[2%] gap-[2%]">
+          <div className="grid grid-cols-3 mt-[3%] ml-[2%] gap-[2%] mx-[10%]">
             {backendData.map((item) => (
               <div
                 className="border rounded-xl px-3 py-4 text-left bg-slate-100"

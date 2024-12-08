@@ -1,6 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faEnvelope,
+  faLock,
+  faMoneyCheck,
+} from "@fortawesome/free-solid-svg-icons";
 const SidebarUser = () => {
   return (
     <div className="w-[18%] min-h-screen bg-violet-950 rounded-xl">

@@ -38,6 +38,36 @@ const handleFetchAllAccounts = async (req, res) => {
   }
 };
 
+const handleFetchAccountById = async (req, res) => {
+  try {
+    const accountId = req.params.id;
+    const [results] = await sequelize.query(
+      "SELECT * FROM accounts WHERE account_id = ?",
+      {
+        replacements: [accountId],
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+    if (!results) {
+      return res.status(404).json({
+        message: "No account found with the given ID",
+        success: false,
+      });
+    }
+    return res.status(200).json({
+      message: "Account details retrieved successfully",
+      data: results,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error fetching account details:", error);
+    return res.status(500).json({
+      message: `Unable to process request due to an error: ${error.message}`,
+      success: false,
+    });
+  }
+};
+
 const handleFetchTransactionByAccountId = async (req, res) => {
   try {
     const accountId = req.params.id;
@@ -60,4 +90,5 @@ module.exports = {
   handleFetchAllUser,
   handleFetchTransactionByAccountId,
   handleFetchAllAccounts,
+  handleFetchAccountById,
 };

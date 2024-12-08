@@ -3,6 +3,7 @@ const User = require("./../models/user-model");
 const { body, validationResult } = require("express-validator");
 const bcryptjs = require("bcryptjs");
 const { request } = require("express");
+const { Op } = require("sequelize");
 
 registerValidationRules = [
   body("username")
@@ -38,7 +39,17 @@ const handleCustomerRegister = async (req, res) => {
     });
   }
   try {
-    const { user_name, email, password, user_type = "customer" } = req.body;
+    const {
+      user_name,
+      email,
+      password,
+      first_name,
+      last_name,
+      phone_number,
+      user_type = "customer",
+      date_of_birth,
+      address,
+    } = req.body;
     const existingUser = await User.findOne({
       where: {
         [Op.or]: [{ user_name: user_name }, { email: email }],
@@ -54,9 +65,15 @@ const handleCustomerRegister = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await User.create({
-      user_name,
-      email,
+      user_name: user_name,
+      email: email,
       password: hashedPassword,
+      first_name: first_name,
+      last_name: last_name,
+      date_of_birth: date_of_birth,
+      phone_number: phone_number,
+      user_type: user_type,
+      address: address,
     });
     const accessToken = newUser.generateAccessToken();
     newUser.access_token = accessToken;
@@ -82,44 +99,59 @@ const handleCustomerRegister = async (req, res) => {
     });
   }
 };
+
 const handleCustomerLogin = async (req, res) => {
   try {
     const { user_name, password } = req.body;
+
     if (!user_name || !password) {
       return res
         .status(400)
-        .json({ message: "Entering all fields is manadatory", success: false });
+        .json({ message: "Entering all fields is mandatory", success: false });
     }
+
     let prevUser = await User.findOne({
-      user_name,
+      where: { user_name },
     });
+
     if (!prevUser) {
       return res
         .status(404)
         .json({ message: "No such user found", success: false });
     }
-    let isMatching = await bcryptjs.compare(
-      request.body.password,
-      prevUser.password
-    );
-    if (isMatching === false) {
+
+    let isMatching = false;
+    if (
+      prevUser.password.startsWith("$2a$") ||
+      prevUser.password.startsWith("$2b$")
+    ) {
+      isMatching = await bcryptjs.compare(password, prevUser.password);
+    } else {
+      isMatching = password === prevUser.password;
+    }
+
+    if (!isMatching) {
       return res
         .status(401)
         .json({ message: "Invalid credentials", success: false });
-    } else {
-      const access_token = User.generateAccessToken();
-      User.access_token = access_token;
-      await User.save();
-      return res
-        .status(202)
-        .json({ message: "Login successfull", success: true });
     }
+    const access_token = prevUser.generateAccessToken();
+    prevUser.access_token = access_token;
+    await prevUser.save();
+
+    return res.status(202).json({
+      message: "Login successful",
+      success: true,
+      user_id: prevUser.user_id,
+    });
   } catch (error) {
+    console.error("Login error:", error);
     return res
       .status(500)
-      .json({ message: `An error ${error} occured`, success: false });
+      .json({ message: `An error occurred: ${error.message}`, success: false });
   }
 };
+
 const handleBankerLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
