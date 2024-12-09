@@ -13,7 +13,7 @@ const Login = () => {
         alert("Entering all fields is mandatory");
       } else {
         let resObj = await axios.post(
-          `http://localhost:3500/v1/api/login-customer`,
+          `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/login-customer`,
           {
             user_name: userName,
             password: userPassword,

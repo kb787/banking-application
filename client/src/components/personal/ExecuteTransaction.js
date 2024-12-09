@@ -18,7 +18,7 @@ const ExecuteTransaction = ({
   const fetchAccountDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3500/v1/api/get-account-details/${accountId}`
+        `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/get-account-details/${accountId}`
       );
       setBackendData(res.data.data.balance);
     } catch (err) {
@@ -64,7 +64,7 @@ const ExecuteTransaction = ({
       }
 
       const resObj = await axios.post(
-        `http://localhost:3500/v1/api/execute-transaction`,
+        `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/execute-transaction`,
         {
           account_id: accountId,
           amount: parseFloat(transactionAmount),

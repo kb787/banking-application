@@ -11,7 +11,7 @@ const UserTransaction = ({ showModal, onClose }) => {
     const handleFetchTransactionDetails = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3500/v1/api/get-customer-transaction/${selectedId}`
+          `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/get-customer-transaction/${selectedId}`
         );
         const dataArray = Array.isArray(res.data)
           ? res.data

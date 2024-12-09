@@ -11,13 +11,16 @@ const BankerLogin = () => {
     email: email,
     password: password,
   };
+
   const handleBankerLogin = async () => {
+    console.log(process.env.REACT_APP_PUBLIC_IP);
     try {
       if (!email || !password) {
         alert("Entering all fields is mandatory");
       } else {
         let resObj = await axios.post(
-          `http://localhost:3500/v1/api/login-banker`,
+          `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/login-banker`,
+
           {
             email: email,
             password: password,

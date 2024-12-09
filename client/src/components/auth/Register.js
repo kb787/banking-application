@@ -30,7 +30,7 @@ const Register = () => {
       }
 
       let resObj = await axios.post(
-        `http://localhost:3500/v1/api/register-customer`,
+        `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/register-customer`,
         {
           user_name: userName,
           email: userEmail,

@@ -11,7 +11,7 @@ const AccountList = () => {
   const handleFetchAllAccounts = useCallback(async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3500/v1/api/get-all-accounts"
+        `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/get-all-accounts`
       );
 
       const dataArray = Array.isArray(res.data)

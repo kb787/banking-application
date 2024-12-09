@@ -19,7 +19,7 @@ const TransactionList = () => {
   const fetchTransactions = useCallback(async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3500/v1/api/get-customer-transaction-user/${userId}`
+        `http://${process.env.REACT_APP_PUBLIC_IP}:3500/v1/api/get-customer-transaction-user/${userId}`
       );
       const dataArray = Array.isArray(res.data)
         ? res.data
