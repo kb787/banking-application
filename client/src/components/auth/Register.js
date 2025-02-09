@@ -45,7 +45,8 @@ const Register = () => {
 
       if (resObj.data.success) {
         alert("Registration successful");
-        navigate("/Login");
+        localStorage.setItem("userId", resObj.data.user_id);
+        navigate("/NewAccount");
       } else {
         alert("Invalid credentials");
       }

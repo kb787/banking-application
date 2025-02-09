@@ -88,7 +88,7 @@ const handleCustomerRegister = async (req, res) => {
 
     res.status(201).json({
       message: "User registered successfully",
-      body: userResponse,
+      user_id:newUser.user_id,
       success: true,
     });
   } catch (error) {

@@ -15,6 +15,7 @@ const TransactionList = () => {
   const [showModal, setShowModal] = useState(false);
   const userId = localStorage.getItem("userId");
   const [transAccountId, setTransAccountId] = useState("");
+  const accountId = localStorage.getItem("accountId");
 
   const fetchTransactions = useCallback(async () => {
     try {
@@ -58,7 +59,8 @@ const TransactionList = () => {
           <ExecuteTransaction
             showModal={showModal}
             onClose={() => setShowModal(false)}
-            accountId={transAccountId}
+            // accountId={transAccountId}
+            accountId={accountId}
             onTransactionComplete={handleTransactionComplete}
           />
         </div>

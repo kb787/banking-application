@@ -7,6 +7,7 @@ const { Connection } = require("./config/dbConnection");
 const bankerRouter = require("./routes/banker-routes");
 const authRouter = require("./routes/auth-routes");
 const transactionRouter = require("./routes/transaction-routes");
+const accountRouter = require("./routes/account-routes");
 const allowedOrigin = process.env.frontend_server;
 const cors = require("cors");
 app.use(express.json());
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 app.use(base_api, bankerRouter);
 app.use(base_api, authRouter);
 app.use(base_api, transactionRouter);
+app.use(base_api, accountRouter);
 server.listen(express_port, () => {
   console.log(`Server running successfully on port no ${express_port}`);
 });
